@@ -20,5 +20,11 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        // 作成したシードファイルを追加
+            $this->call([
+                UsersTableSeeder::class,
+                // 他に必要なシードファイルがあればここに追加
+            ]);
     }
 }
