@@ -1,14 +1,18 @@
 <x-logout-layout>
 
   <!-- 適切なURLを入力してください -->
-  {!! Form::open(['url' => '〇〇']) !!}
+  {!! Form::open(['url' => 'login']) !!}
+<!-- @csrf（セキュリティトークン）を追加 -->
+@csrf
+
 
   <p>AtlasSNSへようこそ</p>
 
-  {{ Form::label('email') }}
-  {{ Form::text('email',null,['class' => 'input']) }}
-  {{ Form::label('password') }}
-  {{ Form::password('password',['class' => 'input']) }}
+  {{ Form::label('email', 'メールアドレス') }}
+  {{ Form::text('email',null,['class' => 'input','placeholder'=> 'メールアドレス' ]) }}
+
+  {{ Form::label('password','パスワード') }}
+  {{ Form::password('password',['class' => 'input','placeholder' => 'パスワード']) }}
 
   {{ Form::submit('ログイン') }}
 

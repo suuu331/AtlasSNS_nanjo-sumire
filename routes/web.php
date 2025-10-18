@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+//「新規ユーザー登録」と「ログイン」のルーティングに関する処理
 require __DIR__ . '/auth.php';
 
 Route::get('top', [PostsController::class, 'index']);

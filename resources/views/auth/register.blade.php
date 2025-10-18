@@ -1,6 +1,8 @@
 <x-logout-layout>
     <!-- 適切なURLを入力してください -->
-{!! Form::open(['url' => '〇〇']) !!}
+{!! Form::open(['url' => '/register']) !!}
+<!-- @csrfを追加 -->
+@csrf
 
 <h2>新規ユーザー登録</h2>
 
@@ -14,7 +16,8 @@
 {{ Form::text('password',null,['class' => 'input']) }}
 
 {{ Form::label('パスワード確認') }}
-{{ Form::text('password_confirmation',null,['class' => 'input']) }}
+{{ Form::password('password_confirmation',null,['class' => 'input']) }}
+<!-- ↑textをpasswordに変更 -->
 
 {{ Form::submit('登録') }}
 
