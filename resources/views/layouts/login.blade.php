@@ -20,7 +20,7 @@
   <link rel="icon" href="画像URL" sizes="48x48" type="image/png" />
   <link rel="icon" href="画像URL" sizes="62x62" type="image/png" />
   <!--iphoneのアプリアイコン指定-->
-  <link rel="apple-touch-icon-precomposed" href="画像のURL" />
+  <link rel="apple-touch-icon" href="画像のURL" /><!-- 変更:iconの後の-precomposedを削除 -->
   <!--OGPタグ/twitterカード-->
 </head>
 
@@ -34,20 +34,33 @@
       {{ $slot }}
     </div>
     <div id="side-bar">
+      @auth
       <div id="confirm">
-        <p>〇〇さんの</p>
+        <p>{{ Auth::user()->username }}さんの</p>
+        <!-- {{ Auth::user()->username }}に変更 -->
         <div>
           <p>フォロー数</p>
-          <p>〇〇名</p>
+          <p>{{ $followingCount }}名</p>
+          <!-- {{ $followingCount }}名に変更 -->
         </div>
-        <p class="btn"><a href="">フォローリスト</a></p>
-        <div>
+        <p class="btn"><a href="{{ route('follow.list') }}">フォローリスト</a></p>
+        <div><!-- ルートヘルパー関数を使って修正 -->
           <p>フォロワー数</p>
-          <p>〇〇名</p>
+          <p>{{ $followerCount }}名</p>
+          <!-- {{ $followerCount }}に変更 -->
         </div>
-        <p class="btn"><a href="">フォロワーリスト</a></p>
-      </div>
-      <p class="btn"><a href="">ユーザー検索</a></p>
+        <p class="btn"><a href="{{ route('follower.list') }}">フォロワーリスト</a></p>
+      </div><!-- ルートヘルパー関数を使って修正 -->
+
+      <!-- 下記追加 -->
+      @else
+      <div id="confirm">
+          <p>ログインすると、フォロー/フォロワーの状況が表示されます。</p>
+        </div>
+      @endauth
+
+
+      <p class="btn"><a href="{{ route('user.search') }}">ユーザー検索</a></p>
     </div>
   </div>
   <footer>

@@ -23,6 +23,9 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+
+    // store メソッド
+    //新しいレコードをデータベースに保存するために使用。フォームからの POST リクエストを受け取り、バリデーションと保存処理を行う。
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
@@ -30,6 +33,20 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended('top');
+    }
+
+    // destroyメソッド
+    // 特定のレコードを削除するためのDELETEリクエストを受け取る。削除対象のモデルインスタンスをルートモデルバインディング（推奨）またはIDで受け取る処理
+    public function destroy(Request $request)
+   {
+    //    セッション内の認証情報が削除
+    Auth::guard('web')->logout();
+    //    セッションデータを破棄
+    $request->session()->invalidate();
+    //    セッション固定攻撃からの保護
+    $request->session()->regenerateToken();
+    // 　　リダイレクト
+    return redirect()->route('login');//ログイン画面へ行くよう定義する
     }
 
 }
