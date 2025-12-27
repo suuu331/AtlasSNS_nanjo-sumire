@@ -63,4 +63,11 @@ class User extends Authenticatable
     return $this->hasMany(Post::class);
     }
 
+    //ユーザー画像の表示を統一、反映させる
+    //public function getIconUrl()
+   // {
+    // 画像があればstorageから、なければimages/icon1.pngのURLを返す
+    //return $this->images ? asset('storage/' . $this->images) : asset('images/icon1.png');
+    //}
+
 }

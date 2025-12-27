@@ -22,11 +22,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController; //行を追加
 //「新規ユーザー登録」と「ログイン」のルーティングに関する処理
 require __DIR__ . '/auth.php';
 
-Route::get('top', [PostsController::class, 'index'])->name('top');//->name('top')追加
+//Route::get('top', [PostsController::class, 'index'])->name('top');//->name('top')追加
+// 修正後
+Route::get('top', [ProfileController::class, 'index']);//->name('top');
 
 Route::get('profile', [ProfileController::class, 'profile'])->name('profile');//追加
 
-Route::get('search', [UsersController::class, 'index']);
+//Route::get('search', [UsersController::class, 'index']);
 
 Route::get('follow-list', [PostsController::class, 'index']);
 Route::get('follower-list', [PostsController::class, 'index']);
@@ -41,14 +43,21 @@ Route::get('/follow-list', [App\Http\Controllers\ProfileController::class, 'foll
 // フォロワーリストページ
 Route::get('/follower-list', [App\Http\Controllers\ProfileController::class, 'followerList'])->name('follower.list');
 
+// 相手のプロフィールページを表示するルート
+Route::get('/user/{id}/profile', [ProfileController::class, 'userProfile'])->name('user.profile');
+
 
 // ユーザー検索ページ
 Route::get('/search', [ProfileController::class, 'searchIndex'])->name('user.search');
 
 
-
 // 投稿データの送信先ルートを定義
-Route::post('/post/create', [App\Http\Controllers\ProfileController::class, 'postStore'])->name('post.create');
+//Route::post('/post/create', [App\Http\Controllers\ProfileController::class, 'postStore'])->name('post.create');
+// 修正後：
+//Route::post('/post/create', [App\Http\Controllers\ProfileController::class, 'postStore'])->name('post.store');
+
+// 投稿保存
+Route::post('/post/create', [ProfileController::class, 'postStore'])->name('post.store');
 
 // 投稿の編集画面表示（今回はモーダルなので不要な場合もあるが、実装推奨）
 Route::get('/post/edit/{id}', [App\Http\Controllers\ProfileController::class, 'edit'])->name('post.edit');
@@ -65,3 +74,9 @@ Route::get('/', [App\Http\Controllers\ProfileController::class, 'index'])->name(
 
 //ユーサー検索のページ
 Route::get('/users/search', [App\Http\Controllers\ProfileController::class, 'searchIndex'])->name('user.search');
+
+
+// フォローする時の送り先
+Route::post('/follow/{id}', [App\Http\Controllers\ProfileController::class, 'follow'])->name('follow.follow');
+// フォロー解除する時の送り先
+Route::post('/unfollow/{id}', [App\Http\Controllers\ProfileController::class, 'unfollow'])->name('follow.unfollow');

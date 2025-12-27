@@ -1,6 +1,7 @@
         <div id="head">
             <!-- 1. トップページを設定 -->
-            <h1><a href="{{ route('top') }}"><img src="images/atlas.png"></a></h1>
+            <!-- <h1><a href="{{ route('top') }}"><img src="images/atlas.png"></a></h1> -->
+            <h1><a href="{{ route('top') }}"><img src="{{ asset('images/atlas.png') }}"></a></h1>
             <div id="">
                 <div id="">
                     <!-- 2,ユーザー名を表示

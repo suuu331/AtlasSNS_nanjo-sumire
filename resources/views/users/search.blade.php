@@ -11,7 +11,7 @@
                    name="keyword"        placeholder="ユーザー名を入力">
 
             <button type="submit" class="search-button">
-                <img src="{{ asset('images/search_button.png') }}" alt="検索" class="search-image">
+                <img src="{{ asset('images/search.png') }}" alt="検索" class="search-image">
             </button>
 
         </form>
@@ -27,14 +27,34 @@
         @forelse ($users as $user)
             <div class="user-item">
 
-                <img src="{{ asset('storage/images/' . $user->images) }}"
+                <!-- <img src="{{ asset('storage/images/' . $user->images) }}" -->
+                     <!-- alt="{{ $user->username }}のアイコン" -->
+                     <!-- class="user-icon">  ここ３行を下に変更-->
+                <img src="{{ $user->images ? asset('storage/' . $user->images) : asset('images/icon1.png') }}"
                      alt="{{ $user->username }}のアイコン"
                      class="user-icon">
 
                 <span class="user-name">{{ $user->username }}</span>
 
+                <!-- {{-- ★フォローボタンは「データがある時」のエリアに追加★ --}} -->
+                <div class="follow-btn-container">
+                    @if (in_array($user->id, $following_ids))
+                        <form action="{{ route('follow.unfollow', ['id' => $user->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">フォロー解除</button>
+                        </form>
+                    @else
+                        <form action="{{ route('follow.follow', ['id' => $user->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">フォローする</button>
+                        </form>
+                    @endif
                 </div>
+             </div>
+                <!-- {{-- ▲ ここまでが繰り返される ▲ --}} -->
+
         @empty
+         <!-- {{-- ▼ ここは「データが0件の時」だけ表示される ▼ --}} -->
             <p>
                 @if (!empty($search_word))
                     「{{ $search_word }}」に一致するユーザーは見つかりませんでした。
