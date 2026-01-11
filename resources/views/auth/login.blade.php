@@ -1,23 +1,28 @@
 <x-logout-layout>
+    {{--
+        ロゴや外枠（container）は x-logout-layout 側ですでに用意されているため、
+        ここではフォームの中身だけを記述します。
+    --}}
 
-  <!-- 適切なURLを入力してください -->
-  {!! Form::open(['url' => 'login']) !!}
-<!-- @csrf（セキュリティトークン）を追加 -->
-@csrf
+    {!! Form::open(['url' => 'login']) !!}
+        <p class="welcome-msg">AtlasSNSへようこそ</p>
 
+        <div class="form-group">
+            {{ Form::label('email', 'メールアドレス') }}
+            {{ Form::text('email', null, ['class' => 'input']) }}
+        </div>
 
-  <p>AtlasSNSへようこそ</p>
+        <div class="form-group">
+            {{ Form::label('password', 'パスワード') }}
+            {{ Form::password('password', ['class' => 'input']) }}
+        </div>
 
-  {{ Form::label('email', 'メールアドレス') }}
-  {{ Form::text('email',null,['class' => 'input','placeholder'=> 'メールアドレス' ]) }}
+        <div class="btn-area">
+            {{ Form::submit('ログイン', ['class' => 'btn-submit']) }}
+        </div>
 
-  {{ Form::label('password','パスワード') }}
-  {{ Form::password('password',['class' => 'input','placeholder' => 'パスワード']) }}
-
-  {{ Form::submit('ログイン') }}
-
-  <p><a href="register">新規ユーザーの方はこちら</a></p>
-
-  {!! Form::close() !!}
-
+        <div class="register-link">
+            <a href="register">新規ユーザーの方はこちら</a>
+        </div>
+    {!! Form::close() !!}
 </x-logout-layout>

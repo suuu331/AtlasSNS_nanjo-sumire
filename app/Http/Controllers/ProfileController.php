@@ -10,19 +10,55 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User; // これを追記
 use App\Models\Post; //投稿フォームの設置するため追記
+use Illuminate\Support\Facades\Hash; // プロフィールページ作成時これを追加
 
 class ProfileController extends Controller
 {
-
     // ★★★ これを追加することで、このコントローラーのすべてのアクションにログインが必須になる ★★★
     //public function __construct()
     //{ $this->middleware('auth'); }
     // ここまで***
 
 
-    public function profile(){
-        return view('profiles.profile');
-    }
+ // プロフィール編集画面を表示する
+   public function profile()
+   {
+    $user = Auth::user(); // ログイン中の自分を取得
+    // 自分の編集画面なので $is_following などの判定は不要
+    return view('profiles.usersProfile', ['user' => $user]);// ★自分専用のファイルに飛ばす
+   }
+
+ // プロフィールを更新する処理
+   public function update(Request $request)
+    {
+    // 3. バリデーション（ご指定の条件をすべて反映！）
+      $request->validate([
+        'username' => 'required|string|min:2|max:12',
+        'email' => 'required|string|email|min:5|max:40|unique:users,email,' . Auth::id(),
+        'password' => 'required|alpha_num|min:8|max:20|confirmed', // alpha_numで英数字のみ
+        'password_confirmation' => 'required|alpha_num|min:8|max:20',
+        'bio' => 'nullable|string|max:150',
+        'images' => 'nullable|image|mimes:jpg,png,bmp,gif,svg',
+      ]);
+
+      $user = Auth::user();
+      $user->username = $request->input('username');
+      $user->email = $request->input('email');
+      $user->bio = $request->input('bio');
+
+      // パスワードをハッシュ化して保存
+      $user->password = Hash::make($request->input('password'));
+
+      // 画像の保存
+      if ($request->hasFile('images')) {
+        $file_name = $request->file('images')->getClientOriginalName();
+        $request->file('images')->storeAs('public', $file_name);
+        $user->images = $file_name;
+      }
+
+      $user->save();
+    return redirect('/top'); // 完了後にトップへ
+}
 
 
     /* フォローリストページを表示　*/
@@ -165,29 +201,6 @@ class ProfileController extends Controller
         return response()->json($post);
     }
 
-    /**
-     * 投稿内容の更新処理 (PATCH/PUT)
-     * 自分の投稿かチェックし、バリデーションも行う
-     */
-    public function update(Request $request, $id)
-    {
-        // 1. 自分の投稿かチェック
-        $post = Post::where('id', $id)
-                    ->where('user_id', Auth::id())
-                    ->firstOrFail(); // 見つからなければ404エラー
-
-        // 2. バリデーション（新規投稿と同じルールを適用）
-        $request->validate([
-            'post' => 'required|string|min:1|max:150',
-        ]);
-
-        // 3. データベースを更新
-        $post->post = $request->input('post');
-        $post->save();
-
-        // 4. トップページに戻る
-        return redirect()->route('top')->with('success', '投稿を更新しました。');
-    }
 
 
     /**

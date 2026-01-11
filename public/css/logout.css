@@ -1,10 +1,134 @@
 @charset "UTF-8";
 
-html{
-    height: 100%;
+/* 1. 背景のグラデーション（青を広く、下だけ黄色く） */
+body {
+    background: linear-gradient(to bottom,
+            #186AC9 0%,
+            #186AC9 40%,
+            #B6CC5E 90%,
+            #E8D122 100%);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: sans-serif;
 }
 
-body{
-    height: 100%;
-    background: #186AC9;
+/* ロゴ画像の大きさを調整 */
+.atlas-logo {
+    width: 150px;
+    /* ここを 400px などに変えるとさらに大きくなります */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Social Network Service の文字調整 */
+.sub-title {
+    font-size: 30px;
+    /* 文字を大きく */
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* ロゴと箱との距離 */
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 全体の配置調整（ロゴと入力ボックスを真ん中に） */
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+
+/* 2. 入力エリアを包むボックス */
+/* x-logout-layoutが生成するIDやクラスに合わせて調整 */
+#container,
+.login-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* 半透明の黒 */
+    padding: 40px 50px;
+    width: 350px;
+    border-radius: 10px;
+    text-align: center;
+    border: none;
+    box-shadow: none;
+}
+
+/* 3. 「AtlasSNSへようこそ」のメッセージ */
+.welcome-msg {
+    font-size: 16px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* 4. 入力エリア（ラベルと入力欄） */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* 入力ボックスを縦に長く、スッキリさせる */
+.input {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: white;
+    color: #333;
+}
+
+/* 5. ログインボタン（赤いボタンを右寄せ） */
+.btn-area {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    background-color: #E84C3D;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* 6. 新規ユーザーの方はこちらのリンク */
+.register-link {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.register-link a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
 }

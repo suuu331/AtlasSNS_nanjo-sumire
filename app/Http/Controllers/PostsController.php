@@ -7,6 +7,31 @@ use App\Models\Post; // ★★★ これを追記
 
 class PostsController extends Controller
 {
+
+    /**
+     * 投稿内容の更新処理 (PATCH/PUT)
+     * 自分の投稿かチェックし、バリデーションも行う
+     */
+    public function update(Request $request, $id)
+    {
+        // 1. 自分の投稿かチェック
+        $post = Post::where('id', $id)
+                    ->where('user_id', Auth::id())
+                    ->firstOrFail(); // 見つからなければ404エラー
+
+        // 2. バリデーション（新規投稿と同じルールを適用）
+        $request->validate([
+            'post' => 'required|string|min:1|max:150',
+        ]);
+
+        // 3. データベースを更新
+        $post->post = $request->input('post');
+        $post->save();
+
+        // 4. トップページに戻る
+        return redirect()->route('top')->with('success', '投稿を更新しました。');
+    }
+
     //
     public function index(){
         return view('posts.index');

@@ -28,6 +28,11 @@ Route::get('top', [ProfileController::class, 'index']);//->name('top');
 
 Route::get('profile', [ProfileController::class, 'profile'])->name('profile');//追加
 
+// --- ★ここを付け足す★ ---
+// プロフィールを更新する（保存する）ためのルート
+Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+
 //Route::get('search', [UsersController::class, 'index']);
 
 Route::get('follow-list', [PostsController::class, 'index']);

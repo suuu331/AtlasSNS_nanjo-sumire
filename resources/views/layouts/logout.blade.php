@@ -22,7 +22,7 @@
         <!--iphoneのアプリアイコン指定-->
         <link rel="apple-touch-icon-precomposed" href="画像のURL" />
     </head>
-    <body>
+    <!-- <body>
         <header>
             <h1><img src="images/atlas.png"></h1>
             <p>Social Network Service</p>
@@ -33,5 +33,18 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="JavaScriptファイルのURL"></script>
         <script src="JavaScriptファイルのURL"></script>
+    </body>　-->
+
+    <body>
+        <div class="login-wrapper"> <header class="login-header"> <h1><img src="{{ asset('images/atlas.png') }}" class="atlas-logo"></h1>
+                <p class="sub-title">Social Network Service</p>
+            </header>
+
+            <div id="container">
+                {{ $slot }}
+            </div>
+        </div>
+
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
