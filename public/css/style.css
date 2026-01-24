@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+
+/* ログイン時のページ */
 html {
     height: 100%;
 }
@@ -16,7 +18,7 @@ body {
 header {
     background: #186AC9;
     padding: 15px 0;
-    /* 少し高さを出すと見本に近づきます */
+    /* 少し高さを出す */
 }
 
 #row {
@@ -34,7 +36,8 @@ header {
     border-left: 1px solid #727272;
 }
 
-/* --- 2. プロフィール編集画面（1枚目の見本画像に合わせる） --- */
+
+/* --- 2. プロフィール編集画面 --- */
 
 .profile-edit-container {
     width: 90%;
@@ -113,4 +116,728 @@ header {
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
+}
+
+
+
+
+/* 　ヘッダー全体　アトラスロゴの部分　 */
+
+#head {
+    background-color: #186ac2;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    /* ロゴを左、メニューを右へ */
+    align-items: center;
+    /* 縦の中央に揃える */
+    padding: 0 40px;
+    color: #fff;
+    position: relative;
+}
+
+/* ロゴのサイズ調整 */
+.atlas-logo {
+    height: 30px;
+    width: auto;
+}
+
+/* 右側のメニュー */
+.menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* margin-right: 10px; */
+    /* 右端に寄りすぎないように調整 */
+}
+
+/* 名前・矢印・アイコンの並び */
+.menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* 要素同士の隙間を空ける */
+    cursor: pointer;
+}
+
+.user-name {
+    font-weight: bold;
+    margin: 0;
+}
+
+/* アイコンのサイズ（見本通り小さく） */
+.header-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+
+
+/* --- ヘッダーアコーディオン用 --- */
+
+/* 親コンテナ：名前・矢印・アイコンを包む */
+.menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* 縦の中央に揃える */
+}
+
+/* クリックエリア：ここが「スイッチ」 */
+.menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    /* padding: 10px; */
+}
+
+/* 矢印：最初は下向き（∨） */
+.arrow {
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(135deg);
+    transition: 0.3s;
+    margin-top: -5px;
+    /* 高さの微調整 */
+}
+
+/* メニューが開いているときは上向き（∧）に！ */
+.menu-trigger.active .arrow {
+    transform: rotate(-45deg);
+    margin-top: 5px;
+}
+
+/* --- ドロップダウンメニューのデザイン --- */
+.menu-content {
+    display: none;
+    position: absolute;
+    top: 90px;
+    /* ヘッダーのすぐ下 */
+    right: 0;
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #186ac2;
+    list-style: none;
+    z-index: 1000;
+    /* 一番手前に出す */
+    list-style: none;
+}
+
+/* activeクラスがついたら表示 */
+.menu-content.active {
+    display: block !important;
+}
+
+/* メニュー内のリンク共通設定 */
+.menu-content li a {
+    display: block;
+    width: 100%;
+    padding: 20px 0;
+    /* 上下の余白を揃える */
+    text-align: center;
+    /* 文字を真ん中に */
+    text-decoration: none;
+    background-color: #fff;
+    color: #186ac2;
+    /* 基本は青文字 */
+    border-bottom: 1px solid #186ac2;
+    /* 下の区切り線 */
+    font-size: 16px;
+}
+
+.menu-content li a:hover {
+    background-color: #186ac2;
+    color: #fff;
+}
+
+/* ホバーした時に少し色を変える */
+.menu-content li a:hover {
+    opacity: 0.8;
+    background-color: #f0f0f0;
+}
+
+
+
+
+/* サイドバーの配置（2カラムレイアウト） */
+
+/* サイドバーのフォロー数・フォロワー数の行 */
+.sidebar-follow-row {
+    display: flex;
+    justify-content: space-between;
+    /* 文字は左、数字は右 */
+    margin-bottom: 15px;
+}
+
+/* 全体を横並びにする（2カラムレイアウト） */
+#row {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+/* メインコンテンツ（左側：タイムラインなど） */
+#container {
+    width: 80%;
+    /* メインを広く */
+    border-right: 1px solid #ddd;
+    /* 境界線 */
+    padding: 20px;
+}
+
+/* サイドバーの「〇〇さんの」の下のブロック */
+.confirm {
+    padding: 20px;
+}
+
+/* フォロー数・フォロワー数の行を横いっぱいに広げて左右に分ける */
+.side-row {
+    display: flex;
+    justify-content: space-between;
+    /* これで左右に分かれる */
+    align-items: center;
+    padding: 10px 0;
+    /* 上下に少し余白 */
+}
+
+.side-label,
+.side-number {
+    margin: 0;
+    /* 余計な上下余白を消す */
+}
+
+/* ボタンを右寄せにする */
+.side-btn-container {
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+/* ボタンを青い角丸にする */
+.btn-blue {
+    display: inline-block;
+    background-color: #186ac2;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* ユーザー検索ボタンを中央に大きく配置 */
+.search-area {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-blue-large {
+    display: inline-block;
+    width: 180px;
+    background-color: #186ac2;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+
+/* 投稿入力エリア（トップ） */
+
+/* 投稿フォーム全体 */
+.post-form-wrapper {
+    border-bottom: 10px solid #f0f0f0;
+    /* グレーの太い仕切り線 */
+}
+
+.post-form-container {
+    display: flex;
+    padding: 20px 50px;
+    position: relative;
+    /* ボタンの配置基準 */
+}
+
+/* 入力エリアの枠を消す */
+.post-input {
+    flex: 1;
+    margin-left: 20px;
+    border: none;
+    outline: none;
+    resize: none;
+    height: 100px;
+    font-size: 16px;
+}
+
+/* 投稿ボタン（紙飛行機）を右下に */
+.submit-button {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 投稿ボタンのサイズ */
+.post-image {
+    width: 30px;
+    height: auto;
+    /* transitionを入れるとホバー時にふわっとします（お好みで） */
+    transition: 0.2s;
+}
+
+.post-image:hover {
+    opacity: 0.7;
+}
+
+
+/* --- 投稿一覧（タイムライン） --- */
+.post-item {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    /* アイコンとメイン内容を横並びに */
+    position: relative;
+    /* ボタンを右下に固定するための基準 */
+}
+
+/* 投稿フォームの横にある自分のアイコン */
+.user-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+/* 投稿者のアイコンサイズ */
+.post-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 投稿内容の塊（名前、日付、本文） */
+.post-main {
+    flex: 1;
+    margin-left: 15px;
+}
+
+/* 名前を左、日付を右に */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.post-user-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.post-date {
+    color: #888;
+    font-size: 12px;
+}
+
+.post-text {
+    font-size: 14px;
+    line-height: 1.6;
+    padding-right: 80px;
+    /* 編集・削除ボタンと重ならないように余白を作る */
+}
+
+
+/* 編集・削除ボタン（右下に固定） */
+.post-buttons {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.post-buttons img {
+    width: 30px;
+    /* 見本のボタンサイズ */
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.post-buttons img:hover {
+    opacity: 0.7;
+    /* ホバー時に少し薄くする（お好みで） */
+}
+
+
+
+
+/* --- フォロワーリスト上部エリア --- */
+
+.follower-list-header {
+    display: flex;
+    align-items: center;
+    padding: 30px 40px;
+}
+
+.follower-list-header h2 {
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+}
+
+.follow-icons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* タイトル「フォロワーリスト」とアイコンの高さを合わせる */
+    gap: 10px;
+}
+
+.list-user-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    /* 丸くする */
+    object-fit: cover;
+}
+
+/* --- セクションを分ける太い線 --- */
+.separator-line {
+    height: 10px;
+    background-color: #f0f0f0;
+    /* 見本のグレーの帯 */
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+/* --- 投稿一覧 --- */
+.post-item {
+    display: flex;
+    align-items: flex-start;
+    /* アイコンを投稿の一番上に合わせる */
+    padding: 20px 40px;
+    border-bottom: 1px solid #eee;
+    /* 薄い区切り線 */
+}
+
+.post-main-content {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.post-header-flex {
+    display: flex;
+    justify-content: space-between;
+    /* 名前が左、日付が右 */
+    margin-bottom: 5px;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.post-date {
+    color: #999;
+    font-size: 13px;
+}
+
+.post-text {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.post-icon-img,
+.header-icon,
+.list-user-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    /* アイコンが潰れないように固定 */
+}
+
+
+
+/* --- 検索ページ全体 --- */
+.search-container {
+    padding: 30px 50px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-btn {
+    background-color: #186ac2;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.search-btn img {
+    width: 25px;
+}
+
+/* --- ユーザー一覧 --- */
+.user-list {
+    padding: 20px 100px;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 600px;
+    /* 見本に合わせて幅を調整 */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ボタンのデザイン */
+.btn-follow,
+.btn-unfollow {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 140px;
+    text-align: center;
+}
+
+.btn-follow {
+    background-color: #3ab0f1;
+    /* 見本の明るい青色 */
+}
+
+.btn-unfollow {
+    background-color: #E84C3D;
+    /* 見本の赤色 */
+}
+
+
+
+
+/* プロフィール全体の配置 */
+
+.profile-edit-container {
+    padding-top: 20px;
+}
+
+/* アイコンとフォームの横並びエリア */
+.profile-flex-box {
+    align-items: flex-start;
+    /* 上揃えにする */
+    margin-top: 0;
+}
+
+/* アイコン自体の位置微調整 */
+.profile-icon-area {
+    padding-top: 10px;
+    /* アイコンが文字より下がりすぎならここを0に */
+}
+
+/* ラベルと入力欄の横並び調整 */
+.profile-form-area p,
+.file-input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.profile-form-area label {
+    width: 150px;
+    font-weight: bold;
+}
+
+.profile-form-area input,
+.profile-form-area textarea {
+    width: 320px;
+    padding: 10px;
+    background-color: #E8E8E8;
+    border: 1px solid #ccc;
+}
+
+
+/* グレーの枠の設定 */
+.file-box {
+    width: 320px;
+    height: 80px;
+    background-color: #E8E8E8;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* 子要素の基準にする */
+}
+
+/* 本物のボタンを透明にして全面に広げる（これで「選択されていません」が消える） */
+.file-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    /* 完全に透明にする */
+    cursor: pointer;
+    z-index: 2;
+    /* 重なりを一番上に */
+}
+
+/* 4. 見た目用の白いボタン（ダミー） */
+.file-dummy {
+    background-color: white;
+    color: #888;
+    padding: 5px 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    z-index: 1;
+}
+
+/* 更新ボタンを「入力欄の右端」に寄せる */
+.submit-btn-area {
+    text-align: center;
+    margin: 25px 0 0 0;
+    /* 上に40pxの余白 */
+}
+
+.update-btn {
+    background-color: #E84C3D;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* アイコンクリック後の相手のプロフィール上部エリア */
+
+.user-profile-header {
+    display: flex;
+    padding: 30px 50px;
+    border-bottom: 5px solid #E8E8E8;
+    /* 見本のような太いグレーの線 */
+    align-items: flex-start;
+    /* アイコンと名前は「上揃え」 */
+}
+
+.other-user-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.profile-header-center {
+    margin-left: 40px;
+    flex-grow: 1;
+}
+
+.profile-row {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.profile-row label {
+    width: 120px;
+}
+
+/* ボタンのデザイン */
+.profile-header-right {
+    margin-left: auto;
+    align-self: flex-end;
+    /* ★このボタンブロックだけを強制的に下に落とす設定 */
+    margin-top: 50px;
+    /* 自己紹介文が短い時、ボタンをさらに下に押し下げるための余白 */
+}
+
+/* ボタン自体のデザイン（見本に合わせて少し幅広に） */
+.btn-unfollow,
+.btn-follow {
+    padding: 8px 20px;
+    /* 上下10px、左右25pxでボタンを大きく */
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    /* ★下端にぴったりすぎると窮屈なので、少しだけ浮かせます */
+}
+
+.btn-follow {
+    background-color: #3ab0f1;
+    /* 青 */
+}
+
+.btn-unfollow {
+    background-color: #f13a3a;
+    /* 赤 */
+}
+
+/* 投稿リスト */
+.post-item {
+    display: flex;
+    padding: 20px 50px;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.post-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.post-item-main {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.post-info {
+    display: flex;
+    justify-content: space-between;
+    /* 名前と日付を両端に */
+    margin-bottom: 5px;
+}
+
+.post-user {
+    font-weight: bold;
+}
+
+.post-date {
+    color: #888;
+    font-size: 13px;
 }

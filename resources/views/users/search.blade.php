@@ -1,68 +1,51 @@
 <x-login-layout>
-  <!--  -->
-<h2>ユーザー検索</h2>
-<!--  -->
-<div class="search-form-wrapper">
-        <form action="{{ route('user.search') }}" method="GET" class="user-search-form">
 
-            <label for="search-keyword" class="sr-only">検索ワード:</label>
-            <input type="text"
-                   id="search-keyword"
-                   name="keyword"        placeholder="ユーザー名を入力">
 
-            <button type="submit" class="search-button">
-                <img src="{{ asset('images/search.png') }}" alt="検索" class="search-image">
-            </button>
+  <div class="search-container">
+    {{-- 検索フォームエリア --}}
+    <form action="{{ route('user.search') }}" method="GET" class="search-form">
+      <input type="text" name="keyword" placeholder="ユーザー名" value="{{ $search_word }}" class="search-input">
+      <button type="submit" class="search-btn">
+        <img src="{{ asset('images/search.png') }}" alt="検索">
+      </button>
+    </form>
 
-        </form>
-    </div>
-    <hr>
-
-    <!--検索結果表示エリアを追加 -->
-    @if (!empty($search_word))
-        <h3>検索ワード: {{ $search_word }}</h3>
+    {{-- 検索ワードがある場合のみ表示（任意） --}}
+    @if(!empty($search_word))
+      <p class="search-word-display">検索ワード：{{ $search_word }}</p>
     @endif
+  </div>
 
-    <div class="search-results">
-        @forelse ($users as $user)
-            <div class="user-item">
+  <div class="separator-line"></div>
 
-                <!-- <img src="{{ asset('storage/images/' . $user->images) }}" -->
-                     <!-- alt="{{ $user->username }}のアイコン" -->
-                     <!-- class="user-icon">  ここ３行を下に変更-->
-                <img src="{{ $user->images ? asset('storage/' . $user->images) : asset('images/icon1.png') }}"
-                     alt="{{ $user->username }}のアイコン"
-                     class="user-icon">
+  {{-- ユーザー一覧エリア --}}
+  <div class="user-list">
+    @foreach($users as $user)
+      <div class="user-item">
+        <div class="user-info">
+          <img src="{{ $user->images ? asset('storage/' . $user->images) : asset('images/icon1.png') }}" class="list-user-icon">
+          <span class="user-name">{{ $user->username }}</span>
+        </div>
 
-                <span class="user-name">{{ $user->username }}</span>
+        <div class="user-action">
+          {{-- フォローしているかどうかの判定 --}}
+          @if(in_array($user->id, $following_ids))
+            {{-- フォロー解除ボタン（赤色） --}}
+            <form action="{{ route('follow.unfollow', ['id' => $user->id]) }}" method="POST">
+              @csrf
+              <button type="submit" class="btn-unfollow">フォロー解除</button>
+            </form>
+          @else
+            {{-- フォローするボタン（青色） --}}
+            <form action="{{ route('follow.follow', ['id' => $user->id]) }}" method="POST">
+              @csrf
+              <button type="submit" class="btn-follow">フォローする</button>
+            </form>
+          @endif
+        </div>
+      </div>
+    @endforeach
+  </div>
 
-                <!-- {{-- ★フォローボタンは「データがある時」のエリアに追加★ --}} -->
-                <div class="follow-btn-container">
-                    @if (in_array($user->id, $following_ids))
-                        <form action="{{ route('follow.unfollow', ['id' => $user->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">フォロー解除</button>
-                        </form>
-                    @else
-                        <form action="{{ route('follow.follow', ['id' => $user->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-primary">フォローする</button>
-                        </form>
-                    @endif
-                </div>
-             </div>
-                <!-- {{-- ▲ ここまでが繰り返される ▲ --}} -->
-
-        @empty
-         <!-- {{-- ▼ ここは「データが0件の時」だけ表示される ▼ --}} -->
-            <p>
-                @if (!empty($search_word))
-                    「{{ $search_word }}」に一致するユーザーは見つかりませんでした。
-                @else
-                    データベースに登録されているユーザーはいません。
-                @endif
-            </p>
-        @endforelse
-    </div>
 
 </x-login-layout>

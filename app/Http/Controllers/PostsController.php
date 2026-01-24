@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post; // ★★★ これを追記
+use Illuminate\Support\Facades\Auth; // ★【重要】Authを使うためにこれが必要
+
 
 class PostsController extends Controller
 {
-
     /**
      * 投稿内容の更新処理 (PATCH/PUT)
      * 自分の投稿かチェックし、バリデーションも行う
@@ -16,7 +17,7 @@ class PostsController extends Controller
     {
         // 1. 自分の投稿かチェック
         $post = Post::where('id', $id)
-                    ->where('user_id', Auth::id())
+                    ->where('user_id', \Auth::id())
                     ->firstOrFail(); // 見つからなければ404エラー
 
         // 2. バリデーション（新規投稿と同じルールを適用）

@@ -4,7 +4,8 @@
 <!-- @csrfを追加 -->
 @csrf
 
-<h2>新規ユーザー登録</h2>
+<!-- css編集時に　Pタグに変更 -->
+<p class="welcome-msg">新規ユーザー登録</p>
 
 @if($errors->any())
         <div class="alert alert-danger">
@@ -16,24 +17,36 @@
         </div>
     @endif
 
-{{ Form::label('ユーザー名') }}
-{{ Form::text('username',null,['class' => 'input']) }}
+    <!-- css編集時変更 -->
+<div class="form-group">
+  {{ Form::label('ユーザー名') }}
+  {{ Form::text('username',null,['class' => 'input']) }}
+</div>
 
-{{ Form::label('メールアドレス') }}
-{{ Form::email('email',null,['class' => 'input']) }}
+<div class="form-group">
+  {{ Form::label('メールアドレス') }}
+  {{ Form::email('email',null,['class' => 'input']) }}
+</div>
 
-{{ Form::label('パスワード') }}
-{{ Form::text('password',null,['class' => 'input']) }}
+<div class="form-group">
+    {{ Form::label('password', 'パスワード') }}
+    {{ Form::password('password', ['class' => 'input']) }}
+</div>
 
-{{ Form::label('パスワード確認') }}
-{{ Form::password('password_confirmation',null,['class' => 'input']) }}
+<div class="form-group">
+    {{ Form::label('password_confirmation', 'パスワード確認') }}
+    {{ Form::password('password_confirmation', ['class' => 'input']) }}
+</div>
 <!-- ↑textをpasswordに変更 -->
 
-{{ Form::submit('登録') }}
+<div class="btn-area">
+        {{ Form::submit('新規登録', ['class' => 'btn-submit']) }}
+    </div>
 
-<p><a href="login">ログイン画面へ戻る</a></p>
+    <div class="register-link">
+        <a href="login">ログイン画面へ戻る</a>
+    </div>
+
 
 {!! Form::close() !!}
-
-
 </x-logout-layout>

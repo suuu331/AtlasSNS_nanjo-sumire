@@ -68,7 +68,7 @@ Route::post('/post/create', [ProfileController::class, 'postStore'])->name('post
 Route::get('/post/edit/{id}', [App\Http\Controllers\ProfileController::class, 'edit'])->name('post.edit');
 
 // 投稿の更新処理 (PATCHメソッドを使用)
-Route::patch('/post/update/{id}', [App\Http\Controllers\ProfileController::class, 'update'])->name('post.update');
+Route::patch('/post/update/{id}', [App\Http\Controllers\PostsController::class, 'update'])->name('post.update');
 
 // 投稿の削除処理 (DELETEメソッドを使用)
 Route::delete('/post/delete/{id}', [App\Http\Controllers\ProfileController::class, 'delete'])->name('post.delete');

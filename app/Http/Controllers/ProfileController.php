@@ -20,6 +20,7 @@ class ProfileController extends Controller
     // ここまで***
 
 
+
  // プロフィール編集画面を表示する
    public function profile()
    {
@@ -45,49 +46,52 @@ class ProfileController extends Controller
       $user->username = $request->input('username');
       $user->email = $request->input('email');
       $user->bio = $request->input('bio');
-
-      // パスワードをハッシュ化して保存
-      $user->password = Hash::make($request->input('password'));
+      $user->password = Hash::make($request->input('password')); // パスワードをハッシュ化して保存
 
       // 画像の保存
       if ($request->hasFile('images')) {
+        //getClientOriginalName() を使うことで元のファイル名で保存されます
         $file_name = $request->file('images')->getClientOriginalName();
+        // storage/app/public に保存
         $request->file('images')->storeAs('public', $file_name);
+        // DBにファイル名を保存
         $user->images = $file_name;
-      }
+    }
 
       $user->save();
-    return redirect('/top'); // 完了後にトップへ
+      return redirect('/top');
+      // 完了後にトップへ
 }
 
 
-    /* フォローリストページを表示　*/
-    public function followList() // ここから下追記 ★
+
+    /* フォローリストページを表示 */
+    public function followList()
     {
-        // 認証済みユーザーがフォローしているユーザーを取得
-        $followings = Auth::user()->followings()->get();
-        // 2. 【追加】フォローしている人のIDだけを抜き出す
-        $following_ids = $followings->pluck('id');
-        // 3. 【追加】その人たちの投稿を取得する
+        // 1. 自分がフォローしているユーザーを取得
+        $users = Auth::user()->followings()->get(); // $followings を $users に
+        // 2. フォローしている人のIDだけを抜き出す
+        $following_ids = $users->pluck('id');
+        // 3. その人たちの投稿を取得（最新順）
         $posts = Post::with('user')
             ->whereIn('user_id', $following_ids)
             ->orderBy('created_at', 'desc')
             ->get();
-
+            // 4. 'users' という名前で送る
         return view('follows.followList', [
-            'followings' => $followings,
-            'posts' => $posts  // ← ここを追加！
+            'users' => $users, // ★ 'users' に変更
+            'posts' => $posts
         ]);
     }
 
-    /* フォロワーリストページを表示　*/
+    /* フォロワーリストページを表示 */
     public function followerList()
     {
-        // 認証済みユーザーをフォローしているユーザーを取得
-        $followers = Auth::user()->followers()->get();
+        // 1. 自分をフォローしているユーザーを取得
+        $users = Auth::user()->followers()->get(); // 変数名を $users に変更
 
-        // 2. その人たちのIDだけを抜き出す
-        $follower_ids = $followers->pluck('id');
+        // 2. その人たちのIDを抜き出す
+        $follower_ids = $users->pluck('id');
 
         // 3. その人たちの投稿を取得（最新順）
         $posts = Post::with('user')
@@ -95,12 +99,12 @@ class ProfileController extends Controller
            ->orderBy('created_at', 'desc')
            ->get();
 
+        // 4. ビューに渡す（'users' という名前で渡す！）
         return view('follows.followerList', [
-            'followers' => $followers,
+            'users' => $users, // ★ここを 'users' にすることでエラーが治ります
             'posts' => $posts
         ]);
-    } // ★★★ ここまで追記 ★★★
-
+    }
 
     /**ユーザー検索ページを表示 (検索処理はまだ含めない)*/
     // public function searchIndex()
@@ -113,12 +117,13 @@ class ProfileController extends Controller
     // ]);
     // }
 
-    //ここは検索ページの検索処理含んだ　searchIndex メソッド
+
+
+    //検索ページの検索処理　searchIndex メソッド
     public function searchIndex(Request $request)
     {
         // １　検索ワードを取得（最初はnullまたは空）
         $search_word = $request->input('keyword');
-
         // 後の課題で使うため、初期化　　$users = [];
 
         // 2. 検索クエリの開始（Userモデルを対象とする）
@@ -127,7 +132,7 @@ class ProfileController extends Controller
         // 3. 自分のユーザーを除外する条件 (常に適用)
         //$query->where('id', '!=', Auth::id());
         if (Auth::check()) {
-        $query->where('id', '!=', Auth::id()); // 自分を除外
+            $query->where('id', '!=', Auth::id());
     }
 
         // 4. 【検索ワードがある場合】部分一致検索を適用
@@ -141,11 +146,6 @@ class ProfileController extends Controller
         // ※ 検索ワードがある場合は「部分一致するユーザー」が取得される
         $users = $query->get();
 
-        // ★★★ 追記１　ログインユーザーがフォローしているユーザーのIDリストを取得
-        // exists() メソッドの呼び出しを減らすため、あらかじめIDリストを用意する
-        //$following_ids = Auth::user()->followings()->pluck('follow', 'followed_id')->keys()->toArray(); 修正↓$following_ids = Auth::user()->followings()->pluck('followed_id')->toArray();
-        // ここまで ★★★
-
         // フォローリストの取得（ログイン時のみ）
        $following_ids = [];
         if (Auth::check()) {
@@ -156,13 +156,13 @@ class ProfileController extends Controller
         return view('users.search', [
             'search_word' => $search_word ,
             'users' => $users,
-            // ★★★ 追記２
             'following_ids' => $following_ids // フォローしているIDリストをビューに渡す
-            // ここまで ★★★
         ]);
     }
 
-    // ★★★ postStore メソッドを追記 ★★★
+
+    // ★★★ postStore メソッド ★★★
+
       /* 投稿フォームからデータを受け取り、保存する */
     public function postStore(Request $request)
     {
@@ -270,26 +270,6 @@ class ProfileController extends Controller
         Auth::user()->followings()->detach($id);
         return back(); // 元の画面にリロードして戻る
     }
-
-
-
-    //ユーザーが画像をアップロードした際、その画像を保存する処理
-    public function updateProfile(Request $request)
-{
-    $user = Auth::user();
-
-    // 画像がアップロードされた場合
-    if ($request->hasFile('images')) {
-        // 画像を storage/app/public に保存し、そのパスをDBに入れる
-        $path = $request->file('images')->store('public');
-        $user->images = basename($path);
-    }
-
-    $user->username = $request->input('username');
-    $user->save();
-
-    return redirect()->route('top');
-}
 
 
 // 相手のプロフィール画面を表示する

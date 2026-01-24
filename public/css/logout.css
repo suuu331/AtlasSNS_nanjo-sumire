@@ -1,12 +1,15 @@
 @charset "UTF-8";
 
-/* 1. 背景のグラデーション（青を広く、下だけ黄色く） */
+/* トップページ
+背景のグラデーション（青を広く、下だけ黄色く） */
 body {
     background: linear-gradient(to bottom,
             #186AC9 0%,
             #186AC9 40%,
             #B6CC5E 90%,
             #E8D122 100%);
+    background-attachment: fixed;
+    /* 固定(fixed)にすることで、縦長になっても色が切れなくする */
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -54,15 +57,16 @@ body {
 
 
 /* 2. 入力エリアを包むボックス */
-/* x-logout-layoutが生成するIDやクラスに合わせて調整 */
-#container,
-.login-container {
+/* ログイン・登録ボックスの調整 */
+#container {
     background-color: rgba(0, 0, 0, 0.3);
     /* 半透明の黒 */
-    padding: 40px 50px;
-    width: 350px;
-    border-radius: 10px;
-    text-align: center;
+    padding: 40px 60px;
+    width: 480px;
+    /* 登録画面でも余裕のある幅に */
+    border-radius: 12px;
+    margin: 20px auto;
+    /* autoにすると、確実に真ん中に配置されます */
     border: none;
     box-shadow: none;
 }
@@ -131,4 +135,50 @@ body {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+
+/* 登録完了画面用のスタイル */
+.added-container {
+    text-align: left;
+    /* 文字を左揃えにする場合 */
+    color: white;
+}
+
+.welcome-text {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.message-area {
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+.btn-area-center {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* 登録画面で入力欄が増えても箱が伸びるように設定 */
+#container {
+    height: auto;
+    /* 高さを自動調整に */
+    min-height: 300px;
+}
+
+/* 登録完了画面（added.blade.php）専用のスタイル */
+.message-area {
+    text-align: center;
+    /* これで文字が中央に寄ります */
+    margin: 40px 0;
+    line-height: 2;
+    color: white;
+}
+
+.welcome-msg {
+    text-align: center;
+    /* 名前と「ようこそ」の部分も中央へ */
 }

@@ -33,41 +33,64 @@
     <div id="container">
       {{ $slot }}
     </div>
+
     <div id="side-bar">
-      @auth
-      <div id="confirm">
+      <div class="confirm">
+        {{-- Auth::user() が null の場合にエラーにならないよう optional() を使うか、if文で囲みます --}}
+    @if(Auth::check())
         <p>{{ Auth::user()->username }}さんの</p>
-        <!-- {{ Auth::user()->username }}に変更 -->
-        <div>
-          <p>フォロー数</p>
-          <p>{{ $followingCount }}名</p>
-          <!-- {{ $followingCount }}名に変更 -->
-        </div>
-        <p class="btn"><a href="{{ route('follow.list') }}">フォローリスト</a></p>
-        <div><!-- ルートヘルパー関数を使って修正 -->
-          <p>フォロワー数</p>
-          <p>{{ $followerCount }}名</p>
-          <!-- {{ $followerCount }}に変更 -->
-        </div>
-        <p class="btn"><a href="{{ route('follower.list') }}">フォロワーリスト</a></p>
-      </div><!-- ルートヘルパー関数を使って修正 -->
 
-      <!-- 下記追加 -->
-      @else
-      <div id="confirm">
-          <p>ログインすると、フォロー/フォロワーの状況が表示されます。</p>
+        <div class="side-row">
+            <p class="side-label">フォロー数</p>
+            <p class="side-number">{{ Auth::user()->followings()->count() }}名</p>
         </div>
-      @endauth
 
+        <div class="side-btn-container">
+            <a href="/follow-list" class="btn-blue">フォローリスト</a>
+        </div>
 
-      <p class="btn"><a href="{{ route('user.search') }}">ユーザー検索</a></p>
+        <div class="side-row">
+            <p class="side-label">フォロワー数</p>
+            <p class="side-number">{{ Auth::user()->followers()->count() }}名</p>
+        </div>
+
+        <div class="side-btn-container">
+            <a href="/follower-list" class="btn-blue">フォロワーリスト</a>
+        </div>
+     @endif
     </div>
+
+    <div class="search-area">
+        <a href="/search" class="btn-blue-large">ユーザー検索</a>
+    </div>
+</div>
+
+
+
+
   </div>
   <footer>
   </footer>
   <script src="{{ asset('js/app.js') }}"></script>
   <script src="JavaScriptファイルのURL"></script>
   <script src="JavaScriptファイルのURL"></script>
+
+  <!-- ★ここに追記  -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const trigger = document.querySelector('.menu-trigger');
+        const content = document.querySelector('.menu-content');
+
+        // 要素が存在するか確認してからイベントを設定する（エラー防止）
+        if(trigger && content) {
+            trigger.addEventListener('click', function() {
+                // 'active'クラスを付け外しする
+                this.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        }
+    });
+  </script>
 </body>
 
 </html>
