@@ -52,10 +52,10 @@ class ProfileController extends Controller
       if ($request->hasFile('images')) {
         //getClientOriginalName() を使うことで元のファイル名で保存されます
         $file_name = $request->file('images')->getClientOriginalName();
-        // storage/app/public に保存
+
         $request->file('images')->storeAs('public', $file_name);
         // DBにファイル名を保存
-        $user->images = $file_name;
+        $user->icon_image = $file_name;
     }
 
       $user->save();

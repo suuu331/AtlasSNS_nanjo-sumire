@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             'username' => '初期ユーザー', // ユーザー名
             'email' => 'test@atlas.com',   // メールアドレス
             'password' => Hash::make('password123'), // 暗号化処理
-            'images' => 'icon1.png', // ★ここを追加！アイコン画像の表示★
+            'icon_image' => 'icon1.png', // ★ここを追加！アイコン画像の表示★
             'created_at' => now(),
             'updated_at' => now(),
         ]);
