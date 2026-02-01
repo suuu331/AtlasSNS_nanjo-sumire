@@ -1,8 +1,8 @@
 <x-logout-layout>
-    {{--
-        ロゴや外枠（container）は x-logout-layout 側ですでに用意されているため、
-        ここではフォームの中身だけを記述します。
-    --}}
+
+    <!-- ログイン画面ページ（入力フォーム） -->
+
+    {{--ロゴや外枠（container）は x-logout-layout 側ですでに用意されているためここではフォームの中身だけを記述--}}
 
     {!! Form::open(['url' => 'login']) !!}
         <p class="welcome-msg">AtlasSNSへようこそ</p>

@@ -43,8 +43,8 @@ class PostsController extends Controller
     {
         // 1. バリデーション
         $request->validate([
-            'post' => 'required|string|max:150',
-        ]);
+        'upPost' => 'required|string|min:1|max:150',
+    ]);
 
         // 2. データベースへ保存
         Post::create([

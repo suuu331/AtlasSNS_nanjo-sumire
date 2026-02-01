@@ -1,87 +1,43 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\PostsController;
+use App\Http\Controllers\PostsController; // 必要に応じて残す
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticatedSessionController; //行を追加
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-//「新規ユーザー登録」と「ログイン」のルーティングに関する処理
+// --- ログインなしでOK（新規登録・ログイン） ---
 require __DIR__ . '/auth.php';
 
-//Route::get('top', [PostsController::class, 'index'])->name('top');//->name('top')追加
-// 修正後
-Route::get('top', [ProfileController::class, 'index']);//->name('top');
+// --- ★ ログイン中のみアクセス可能なグループ ---
+Route::middleware(['auth'])->group(function () {
 
-Route::get('profile', [ProfileController::class, 'profile'])->name('profile');//追加
+    // 1. トップページ
+    Route::get('/', [ProfileController::class, 'index'])->name('top');
+    Route::get('/top', [ProfileController::class, 'index']);
 
-// --- ★ここを付け足す★ ---
-// プロフィールを更新する（保存する）ためのルート
-Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // 2. プロフィール編集・更新
+    Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
+    // 3. ユーザー検索
+    Route::get('/search', [ProfileController::class, 'searchIndex'])->name('user.search');
 
-//Route::get('search', [UsersController::class, 'index']);
+    // 4. フォロー・フォロワーリスト（ProfileControllerに統一！）
+    Route::get('/follow-list', [ProfileController::class, 'followList'])->name('follow.list');
+    Route::get('/follower-list', [ProfileController::class, 'followerList'])->name('follower.list');
 
-Route::get('follow-list', [PostsController::class, 'index']);
-Route::get('follower-list', [PostsController::class, 'index']);
+    // 5. 相手のプロフィールページ
+    Route::get('/user/{id}/profile', [ProfileController::class, 'userProfile'])->name('user.profile');
 
-//  ログアウトルートの追記
-Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout'); // ★ ログアウト処理用のルート名を定義
+    // 6. フォロー・解除
+    Route::post('/follow/{id}', [ProfileController::class, 'follow'])->name('follow.follow');
+    Route::post('/unfollow/{id}', [ProfileController::class, 'unfollow'])->name('follow.unfollow');
 
+    // 7. 投稿操作
+    Route::post('/post/create', [ProfileController::class, 'postStore'])->name('post.store');
+    Route::patch('/post/update/{id}', [PostsController::class, 'update'])->name('post.update');
+    Route::delete('/post/delete/{id}', [ProfileController::class, 'delete'])->name('post.delete');
 
-// フォローリストページ
-Route::get('/follow-list', [App\Http\Controllers\ProfileController::class, 'followList'])->name('follow.list');
-
-// フォロワーリストページ
-Route::get('/follower-list', [App\Http\Controllers\ProfileController::class, 'followerList'])->name('follower.list');
-
-// 相手のプロフィールページを表示するルート
-Route::get('/user/{id}/profile', [ProfileController::class, 'userProfile'])->name('user.profile');
-
-
-// ユーザー検索ページ
-Route::get('/search', [ProfileController::class, 'searchIndex'])->name('user.search');
-
-
-// 投稿データの送信先ルートを定義
-//Route::post('/post/create', [App\Http\Controllers\ProfileController::class, 'postStore'])->name('post.create');
-// 修正後：
-//Route::post('/post/create', [App\Http\Controllers\ProfileController::class, 'postStore'])->name('post.store');
-
-// 投稿保存
-Route::post('/post/create', [ProfileController::class, 'postStore'])->name('post.store');
-
-// 投稿の編集画面表示（今回はモーダルなので不要な場合もあるが、実装推奨）
-Route::get('/post/edit/{id}', [App\Http\Controllers\ProfileController::class, 'edit'])->name('post.edit');
-
-// 投稿の更新処理 (PATCHメソッドを使用)
-Route::patch('/post/update/{id}', [App\Http\Controllers\PostsController::class, 'update'])->name('post.update');
-
-// 投稿の削除処理 (DELETEメソッドを使用)
-Route::delete('/post/delete/{id}', [App\Http\Controllers\ProfileController::class, 'delete'])->name('post.delete');
-
-
-// トップページにアクセスしたときに ProfileController の index メソッドを呼び出す
-Route::get('/', [App\Http\Controllers\ProfileController::class, 'index'])->name('top');
-
-//ユーサー検索のページ
-Route::get('/users/search', [App\Http\Controllers\ProfileController::class, 'searchIndex'])->name('user.search');
-
-
-// フォローする時の送り先
-Route::post('/follow/{id}', [App\Http\Controllers\ProfileController::class, 'follow'])->name('follow.follow');
-// フォロー解除する時の送り先
-Route::post('/unfollow/{id}', [App\Http\Controllers\ProfileController::class, 'unfollow'])->name('follow.unfollow');
+    // 8. ログアウト
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});

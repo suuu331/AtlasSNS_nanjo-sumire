@@ -1,3 +1,5 @@
+
+<!-- アコーディオンメニューのレイアウト -->
 <div id="head">
     <div class="header-left">
         <a href="{{ route('top') }}">
@@ -17,7 +19,7 @@
                 <span class="arrow"></span>
 
                 {{-- プロフィール画像 --}}
-             @auth
+                @auth
                     @if(!empty(Auth::user()->images))
                         <img src="{{ asset('storage/' . Auth::user()->images) }}" class="header-icon">
                     @else
@@ -28,7 +30,7 @@
 
             {{-- ドロップダウンメニュー --}}
             <ul class="menu-content">
-                <li><a href="{{ route('top') }}">ホーム</a></li>
+                <li><a href="{{ route('top') }}">HOME</a></li>
                 <li><a href="{{ route('profile') }}" class="edit-link">プロフィール編集</a></li>
                 <li>
                     {{-- ログアウトは form なので注意 --}}

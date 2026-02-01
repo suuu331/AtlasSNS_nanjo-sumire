@@ -28,16 +28,13 @@
           <p><label>自己紹介</label> <textarea name="bio">{{ $user->bio }}</textarea></p>
 
           <!--  アイコン画像：見本の「グレーの枠」を再現 -->
-          <div class="file-input-row">
-            <label>アイコン画像</label>
-            <div class="file-box">
-               <label class="file-label">
-                 <input type="file" name="images" class="file-hidden">
-                 <span class="file-dummy">ファイルを選択</span>
-               </label>
-            </div>
-           </div>
-
+      <div class="profile-input-row">
+    <label>アイコン画像</label>
+    <div class="file-box-container">
+        <input type="file" name="images" class="hidden-file-input">
+        <div class="dummy-file-btn">ファイルを選択</div>
+    </div>
+</div>
 
           <div class="submit-btn-area">
             <button type="submit" class="update-btn">更新</button>
