@@ -5,22 +5,24 @@
     <div class="follow-icons">
         @foreach($users as $user)
             <a href="{{ route('user.profile', ['id' => $user->id]) }}">
-                <img src="{{ $user->images ? asset('storage/' . $user->images) : asset('images/icon1.png') }}"
+                <img src="{{ $user->icon_image ? asset('storage/' . $user->icon_image) : asset('images/icon1.png') }}"
                      alt="{{ $user->username }}" class="list-user-icon">
             </a>
         @endforeach
     </div>
   </div>
 
+
+  <div class="timeline-posts">
   {{-- 境界線としてのグレーの太い帯 --}}
-  <div class="separator-line"></div>
+  <!-- <div class="separator-line"></div> -->
 
   <div class="post-list">
     @foreach($posts as $post)
     <div class="post-item">
         <div class="post-icon">
             <a href="{{ route('user.profile', ['id' => $post->user->id]) }}">
-                <img src="{{ $post->user->images ? asset('storage/' . $post->user->images) : asset('images/icon1.png') }}" class="post-icon-img">
+                <img src="{{ $post->user->icon_image ? asset('storage/' . $post->user->icon_image) : asset('images/icon1.png') }}" class="post-icon-img">
             </a>
         </div>
 
@@ -34,5 +36,5 @@
     </div>
     @endforeach
   </div>
-
+</div>
 </x-login-layout>

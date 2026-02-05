@@ -24,6 +24,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'bio',         // 自己紹介があるなら追加
+        'icon_image',  // ★アイコン画像を反映させる
     ];
 
     /**
@@ -56,18 +58,11 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'followed_id', 'following_id')->withTimestamps();
     }
 
-
     //追記
     public function posts() // ★ここが関係名★
     {
     return $this->hasMany(Post::class);
     }
 
-    //ユーザー画像の表示を統一、反映させる
-    //public function getIconUrl()
-   // {
-    // 画像があればstorageから、なければimages/icon1.pngのURLを返す
-    //return $this->images ? asset('storage/' . $this->images) : asset('images/icon1.png');
-    //}
 
 }

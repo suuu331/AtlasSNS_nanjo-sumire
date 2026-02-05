@@ -6,7 +6,7 @@
     {{-- ヘッダー部分 --}}
     <div class="user-profile-header">
       <div class="profile-header-left">
-        <img src="{{ asset($user->images ? 'storage/'.$user->images : 'images/icon1.png') }}" class="other-user-icon">
+        <img src="{{ asset($user->icon_image ? 'storage/'.$user->icon_image : 'images/icon1.png') }}" class="other-user-icon">
       </div>
 
       <div class="profile-header-center">
@@ -42,7 +42,7 @@
       @foreach($posts as $post)
         <div class="post-item">
           <div class="post-item-left">
-            <img src="{{ asset($post->user->images ? 'storage/'.$post->user->images : 'images/icon1.png') }}" class="post-icon">
+            <img src="{{ asset($post->user->icon_image ? 'storage/'.$post->user->icon_image : 'images/icon1.png') }}" class="post-icon">
           </div>
           <div class="post-item-main">
             <div class="post-info">

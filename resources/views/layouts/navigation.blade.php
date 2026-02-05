@@ -20,8 +20,8 @@
 
                 {{-- プロフィール画像 --}}
                 @auth
-                    @if(!empty(Auth::user()->images))
-                        <img src="{{ asset('storage/' . Auth::user()->images) }}" class="header-icon">
+                    @if(!empty(Auth::user()->icon_image))
+                        <img src="{{ asset('storage/' . Auth::user()->icon_image) }}" class="header-icon">
                     @else
                         <img src="{{ asset('images/icon1.png') }}" class="header-icon">
                     @endif

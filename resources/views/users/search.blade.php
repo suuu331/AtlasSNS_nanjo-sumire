@@ -26,7 +26,7 @@
         <div class="user-row">
             {{-- 左側：アイコンと名前 --}}
             <div class="user-profile">
-                <img src="{{ $user->images ? asset('storage/' . $user->images) : asset('images/icon1.png') }}" class="user-icon">
+                <img src="{{ $user->icon_image ? asset('storage/' . $user->icon_image) : asset('images/icon1.png') }}" class="user-icon">
                 <span class="user-name">{{ $user->username }}</span>
             </div>
 

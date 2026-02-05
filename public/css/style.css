@@ -149,9 +149,7 @@ body {
 /* =================================================
    3. 投稿入力エリア (トップページ上部)
    ================================================= */
-.post-form-wrapper {
-    border-bottom: 10px solid #f0f0f0;
-}
+/* .post-form-wrapper { border-bottom: 10px solid #f0f0f0;} 太い線*/
 
 .post-form-container {
     display: flex;
@@ -634,7 +632,8 @@ body {
 
 
 /* =================================================
-　　　削除モーダル（ポップアップ）の設定================================================= */
+　　　削除モーダル（ポップアップ）の設定
+================================================= */
 /* 削除モーダル用の箱 */
 .delete-confirm {
     margin-top: 100px;
@@ -726,14 +725,19 @@ body {
 
 /* ★見本の「太いグレーの帯」を完全再現 */
 .separator-line {
-    width: 100%;
+    width: auto;
     height: 12px;
     /* 線の太さを「帯」にする */
     background-color: #E8E8E8;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
 }
+
+.timeline-posts {
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
 
 /* 投稿一覧のスタイル（どちらのリストでも共通） */
 .post-item {
@@ -805,9 +809,15 @@ body {
 /* グレーの区切り線 */
 .separator-line {
     border: none;
-    height: 5px;
+    height: 7px;
     background-color: #E8E8E8;
-    margin: 0 0 40px 0;
+    /* margin: 0 0 40px 0; */
+
+    /* ★ここを追加 左右の余白を無理やり消して端まで伸ばす */
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: 40px;
+    /* 下のユーザー一覧との距離 */
 }
 
 /* ユーザー一覧の横並び（中央寄せ） */
@@ -857,4 +867,25 @@ body {
 .btn-unfollow {
     background-color: #ff4b5c;
     /* 赤 */
+}
+
+/* 追記　線の長さ */
+/* 1. 投稿一覧のエリアを画面いっぱいに広げる */
+.timeline-posts {
+    margin-left: -20px;
+    /* 外枠のpadding分だけマイナスにする */
+    margin-right: -20px;
+    /* ここはサイドバーとの距離に合わせて調整 */
+    border-top: 7px solid #ddd;
+    /* 太い区切り線 */
+}
+
+/* 2. 投稿一つ一つの枠に線を引く */
+.post-item {
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    /* 線は端までいくが、中の文字やアイコンには余白を作る */
 }

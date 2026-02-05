@@ -9,7 +9,10 @@
   @auth
     <div class="post-form-container">
       <!-- アイコン　修正icon_image -->
-      <img src="{{ Auth::user()->icon_image ? asset('storage/' . Auth::user()->icon_image) : asset('images/icon1.png') }}" alt="自分のアイコン" class="user-icon">
+      <img src="{{ (Auth::user()->icon_image && file_exists(public_path('storage/' . Auth::user()->icon_image)))
+    ? asset('storage/' . Auth::user()->icon_image)
+    : asset('images/icon1.png') }}"
+    alt="自分のアイコン" class="user-icon">
       <!-- 投稿フォーム -->
       <form action="{{ route('post.store') }}" method="POST" class="post-form">
         @csrf
@@ -32,7 +35,7 @@
 <div class="timeline-posts">
   @foreach ($posts as $post)
     <div class="post-item">
-      <img src="{{ $post->user->images ? asset('storage/' . $post->user->images) : asset('images/icon1.png') }}" alt="アイコン" class="post-icon">
+      <img src="{{ $post->user->icon_image ? asset('storage/' . $post->user->icon_image) : asset('images/icon1.png') }}" alt="アイコン" class="post-icon">
       <div class="post-main">
         <div class="post-header">
           <span class="post-user-name">{{ $post->user->username }}</span>

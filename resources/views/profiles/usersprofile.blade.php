@@ -16,7 +16,7 @@
 
         <!--  アイコン表示  -->
         <div class="profile-icon-area">
-          <img src="{{ Auth::user()->images ? asset('storage/' . Auth::user()->images) : asset('images/icon1.png') }}" class="user-icon">
+          <img src="{{ Auth::user()->icon_image ? asset('storage/' . Auth::user()->icon_image) : asset('images/icon1.png') }}" class="user-icon">
         </div>
 
         <div class="profile-form-area">
@@ -31,7 +31,7 @@
       <div class="profile-input-row">
     <label>アイコン画像</label>
     <div class="file-box-container">
-        <input type="file" name="images" class="hidden-file-input">
+        <input type="file" name="icon_image" class="hidden-file-input">
         <div class="dummy-file-btn">ファイルを選択</div>
     </div>
 </div>

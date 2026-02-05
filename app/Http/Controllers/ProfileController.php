@@ -39,7 +39,7 @@ class ProfileController extends Controller
         'password' => 'required|alpha_num|min:8|max:20|confirmed', // alpha_numで英数字のみ
         'password_confirmation' => 'required|alpha_num|min:8|max:20',
         'bio' => 'nullable|string|max:150',
-        'images' => 'nullable|image|mimes:jpg,png,bmp,gif,svg',
+        'icon_image' => 'nullable|image|mimes:jpg,png,bmp,gif,svg',
       ]);
 
       $user = Auth::user();
@@ -49,11 +49,12 @@ class ProfileController extends Controller
       $user->password = Hash::make($request->input('password')); // パスワードをハッシュ化して保存
 
       // 画像の保存
-      if ($request->hasFile('images')) {
-        //getClientOriginalName() を使うことで元のファイル名で保存されます
-        $file_name = $request->file('images')->getClientOriginalName();
-
-        $request->file('images')->storeAs('public', $file_name);
+      if ($request->hasFile('icon_image')) {
+        // ファイル名を取得
+        //getClientOriginalName() を使うことで元のファイル名で保存
+        $file_name = $request->file('icon_image')->getClientOriginalName();
+        // 「public」ディスクの直下に保存
+        $request->file('icon_image')->storeAs('', $file_name, 'public'); //('public', $file_name);
         // DBにファイル名を保存
         $user->icon_image = $file_name;
     }
